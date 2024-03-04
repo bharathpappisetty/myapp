@@ -4,6 +4,7 @@ package sb.tutorial.myapp.service;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import sb.tutorial.myapp.exception.UserNotFoundException;
 import sb.tutorial.myapp.model.User;
 import sb.tutorial.myapp.model.dto.UserDto;
 import sb.tutorial.myapp.repository.UserRepository;
@@ -38,12 +39,12 @@ public class UserService {
                 resp.setResponseMsg("Record successfully deleted!");
                 return resp;
             } else {
-                throw new Exception("User with given ID:" + id + " not exist");
+                throw new UserNotFoundException("User with given ID:" + id + " not exist");
             }
         } catch (Exception e) {
-            log.error(e.getMessage());
+            e.printStackTrace();
+            throw e;
         }
-        return null;
     }
 
     public String createUser(User user) {
